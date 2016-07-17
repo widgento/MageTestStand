@@ -50,12 +50,17 @@ if [ ! -f htdocs/app/etc/local.xml ] ; then
       sed -i -e s/MAGENTO_DB_NAME/${MAGENTO_DB_NAME}/g .modman/Aoe_TestSetup/app/etc/local.xml.phpunit
     fi
 
+    # Download magento source code
+    php tools/composer.phar require magento/core:${MAGENTO_VERSION}
+    cp -R vendor/magento/core/* htdocs/
+
     tools/n98-magerun.phar install \
       --dbHost="${MAGENTO_DB_HOST}" --dbUser="${MAGENTO_DB_USER}" --dbPass="${MAGENTO_DB_PASS}" --dbName="${MAGENTO_DB_NAME}" --dbPort="${MAGENTO_DB_PORT}" \
       --installSampleData=no \
       --useDefaultConfigParams=yes \
       --magentoVersionByName="${MAGENTO_VERSION}" \
       --installationFolder="${SOURCE_DIR}/htdocs" \
+      --noDownload \
       --baseUrl="http://magento.local/" || { echo "Installing Magento failed"; exit 1; }
 fi
 
