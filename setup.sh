@@ -27,6 +27,7 @@ BUILDENV=`mktemp -d /tmp/mageteststand.XXXXXXXX`
 echo "Using build directory ${BUILDENV}"
  
 git clone https://github.com/widgento/MageTestStand.git "${BUILDENV}"
+git checkout dev
 cp -rf "${WORKSPACE}" "${BUILDENV}/.modman/"
 ${BUILDENV}/install.sh
 if [ -d "${WORKSPACE}/vendor" ] ; then
