@@ -2,7 +2,7 @@
 
 # Get absolute path to main directory
 ABSPATH=$(cd "${0%/*}" 2>/dev/null; echo "${PWD}/${0##*/}")
-SOURCE_DIR=`dirname "${ABSPATH}"`
+SOURCE_DIR=$(dirname "${ABSPATH}")
 
 if [ -z $MAGENTO_DB_HOST ]; then MAGENTO_DB_HOST="localhost"; fi
 if [ -z $MAGENTO_DB_PORT ]; then MAGENTO_DB_PORT="3306"; fi
@@ -10,6 +10,7 @@ if [ -z $MAGENTO_DB_USER ]; then MAGENTO_DB_USER="root"; fi
 if [ -z $MAGENTO_DB_PASS ]; then MAGENTO_DB_PASS=""; fi
 if [ -z $MAGENTO_DB_NAME ]; then MAGENTO_DB_NAME="mageteststand"; fi
 if [ -z $MAGENTO_DB_ALLOWSAME ]; then MAGENTO_DB_ALLOWSAME="0"; fi
+if [ -z $MAGENTO_BASE_URL ]; then MAGENTO_BASE_URL="http://magento.local"; fi
 
 echo
 echo "---------------------"
@@ -56,12 +57,12 @@ if [ ! -f htdocs/app/etc/local.xml ] ; then
 
     tools/n98-magerun.phar install \
       --dbHost="${MAGENTO_DB_HOST}" --dbUser="${MAGENTO_DB_USER}" --dbPass="${MAGENTO_DB_PASS}" --dbName="${MAGENTO_DB_NAME}" --dbPort="${MAGENTO_DB_PORT}" \
-      --installSampleData=no \
+      --installSampleData=yes \
       --useDefaultConfigParams=yes \
       --magentoVersionByName="${MAGENTO_VERSION}" \
       --installationFolder="${SOURCE_DIR}/htdocs" \
       --noDownload \
-      --baseUrl="http://magento.local/" || { echo "Installing Magento failed"; exit 1; }
+      --baseUrl="${MAGENTO_BASE_URL}" || { echo "Installing Magento failed"; exit 1; }
 fi
 
 if [ ! -f composer.lock ] ; then
