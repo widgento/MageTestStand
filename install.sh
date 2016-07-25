@@ -65,6 +65,7 @@ if [ ! -f htdocs/app/etc/local.xml ] ; then
       --installationFolder="${SOURCE_DIR}/htdocs" \
       --noDownload \
       --forceUseDb \
+      -vvv \
       --baseUrl="${MAGENTO_BASE_URL}" || { echo "Installing Magento failed"; exit 1; }
 fi
 
