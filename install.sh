@@ -55,6 +55,7 @@ if [ ! -f htdocs/app/etc/local.xml ] ; then
 
     # Download magento source code
     php tools/composer.phar require magento/core:${MAGENTO_COMPOSER_VERSION}
+    mkdir ./htdocs
     cp -R vendor/magento/core/* htdocs/
 
     tools/n98-magerun.phar install \
